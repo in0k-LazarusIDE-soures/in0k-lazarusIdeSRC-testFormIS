@@ -13,7 +13,7 @@ implementation
 
 function toConfirm(const testForm:TCustomForm):boolean;
 begin {Форма НЕ определена в IDEIntf, поэтому влоб, через название}
-    {$if     (lcl_fullversion>=1060004 )}
+    {$if     (lcl_fullversion =1060004 )}
         result:=testForm.ClassNameIs('TPackageEditorForm');
     {$elseif (lcl_fullversion>=1060002 )}
         result:=testForm.ClassNameIs('TPackageEditorForm');
