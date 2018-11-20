@@ -5,6 +5,8 @@ unit in0k_lazarusIdeSRC__ideForm_ObjectInspector;
 interface
 
 uses
+  IDEIntf,  IDEWindowIntf,
+  IDECommands,
   ObjectInspector,
   Forms;
 
@@ -13,6 +15,8 @@ function Form_Confirmed(const testForm:TCustomForm):boolean; {$ifOPT D-}inline;{
 
 // НАЙТИ Экземляр формы TAnchorDesigner
 function Form_FindInIDE:TCustomForm; {$ifOPT D-}inline;{$endIf}
+
+function Form_ShowByCMD:TCustomForm; {$ifOPT D-}inline;{$endIf}
 
 implementation
 
@@ -32,8 +36,27 @@ begin {todo: посмотреть ... может ПРЯМАЯ ссылка ес�
         if Form_Confirmed(Screen.Forms[i]) then begin
             result:=Screen.Forms[i];
             BREAK;
-				end;
-		end;
+        end;
+    end;
+end;
+
+
+const //< тут возможно придется определять относительно ВЕРСИИ ЛАЗАРУСА
+  _c_IDECommand_OpnOI_IdeCODE_=ecToggleObjectInsp;
+
+function Form_ShowByCMD:TCustomForm;
+var IDECommand:TIDECommand;
+begin
+    result:=NIL;    //idewi
+    // ищем команду
+    IDECommand:=IDECommandList.FindIDECommand(_c_IDECommand_OpnOI_IdeCODE_);
+    if Assigned(IDECommand) and IDECommand.Execute(Application.MainForm) then begin
+
+        ;
+
+            // команда НАШЛАСЬ, и её УДАЛОСЬ запустить
+            result:=Form_FindInIDE; //< поисчем окно СНОГО
+    end;
 end;
 
 end.
