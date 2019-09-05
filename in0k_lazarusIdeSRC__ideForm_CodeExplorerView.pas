@@ -4,7 +4,13 @@ unit in0k_lazarusIdeSRC__ideForm_CodeExplorerView;
 
 interface
 
-uses IDEWindowIntf , Forms;
+uses IDEWindowIntf, Forms;
+
+// название формы
+function Form_Name:string; {$ifOPT D-}inline;{$endIf}
+
+// название КЛАССА формы
+function Form_className:string; {$ifOPT D-}inline;{$endIf}
 
 // проверить что форма является Экземляром: TAnchorDesigner
 function Form_Confirmed(const testForm:TCustomForm):boolean; {$ifOPT D-}inline;{$endIf}
@@ -17,9 +23,22 @@ implementation
 //------------------------------------------------------------------------------
 // Форма НЕ определена в IDEIntf, поэтому влоб, через название
 
+const
+_cFormName_='CodeExplorerView';
+
+function Form_Name:string;
+begin
+    result:=_cFormName_;
+end;
+
+function Form_className:string;
+begin
+    result:='T'+_cFormName_;
+end;
+
 function Form_Confirmed(const testForm:TCustomForm):boolean;
 begin
-    result:=testForm.ClassNameIs('TCodeExplorerView');
+    result:=testForm.ClassNameIs(Form_className);
 end;
 
 function Form_FindInIDE:TCustomForm;
